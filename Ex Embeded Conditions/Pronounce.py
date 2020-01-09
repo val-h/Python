@@ -1,13 +1,17 @@
 age = int(input('Age: '))
 gender = input('Gender: ')
-
+error = False
 if age >= 16:
     if gender == 'm':
         print('Mr.')
-    else:
+    elif gender == 'f':
         print('Ms.')
-else:
+    else:
+        print('Error')
+elif age < 16:
     if gender == 'm':
         print('Master')
-    else:
+    elif gender == 'f':
         print('Miss')
+    else:
+        print('Error')
