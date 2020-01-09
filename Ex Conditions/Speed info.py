@@ -10,3 +10,6 @@ elif speed <= 1000:
     print('ultra fast')
 else:
     print('extremely fast')
+
+
+#did it fucking work???
