@@ -11,4 +11,3 @@ else:
         print('Master')
     else:
         print('Miss')
-#asd
