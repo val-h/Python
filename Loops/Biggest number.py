@@ -1,5 +1,5 @@
 import sys
-n = int(input('How many numbers do you want t ocompare? -  '))
+n = int(input('How many numbers do you want to compare? -  ')) #fixxed a typo
 cnt = 0
 maxNum = sys.float_info.min
 while cnt < n:
