@@ -6,5 +6,5 @@ while True:
     tripCost = int(input('Travel cost: '))
     while tripCost > 0:
         savedMoney = int(input('Money saved this time: '))
-        tripCost -= savedMoney
-    print(f'Going to {usrInp}!')
+        tripCost -= savedMoney  # The time i discovered i should end text files with a new line
+    print(f'Going to {usrInp}!') # https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline
