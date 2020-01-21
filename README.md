@@ -27,3 +27,5 @@ Ex For Loops - https://softuni.bg/trainings/resources/officedocument/45002/exerc
 Embeded Loops - https://softuni.bg/trainings/resources/officedocument/45156/lab-problem-descriptions-programming-basics-with-python-november-2019/2589
 
 Ex Embeded Loops - https://softuni.bg/trainings/resources/officedocument/45183/exercise-problem-descriptions-programming-basics-with-python-november-2019/2589
+
+Ideas for next challenge -> OOP, Project Euler and a random personal project
