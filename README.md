@@ -28,4 +28,8 @@ Embeded Loops - https://softuni.bg/trainings/resources/officedocument/45156/lab-
 
 Ex Embeded Loops - https://softuni.bg/trainings/resources/officedocument/45183/exercise-problem-descriptions-programming-basics-with-python-november-2019/2589
 
+26/1/2020 - SoftUni courses are compelted! : ) Moving on a custon schedule.
+
+List(own exercises) - https://www.w3schools.com/python/python_lists.asp
+
 Ideas for next challenge -> OOP, Project Euler and a random personal project
