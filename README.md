@@ -30,6 +30,10 @@ Ex Embeded Loops - https://softuni.bg/trainings/resources/officedocument/45183/e
 
 26/1/2020 - SoftUni courses are compelted! : ) Moving on a custon schedule.
 
-List(own exercises) - https://www.w3schools.com/python/python_lists.asp
+List(own exercises) - https://www.w3schools.com/python/python_lists.asp 
+    and 
+    https://softuni.bg/trainings/resources/officedocument/15489/lab-problem-descriptions-programming-fundamentals-may-2017/1619
+    and
+    https://www.youtube.com/watch?v=9Os0o3wzS_I&list=PL-osiE80TeTskrapNbzXhwoFUiLCjGgY7&index=8
 
 Ideas for next challenge -> OOP, Project Euler and a random personal project
