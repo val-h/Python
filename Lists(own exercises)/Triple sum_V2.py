@@ -12,3 +12,4 @@ for i, v in enumerate(arr):
     if v in psums:
         print(f'{psums[v][0]} + {psums[v][1]} == {v}')  # Not the exact type of solution i need
                                                         # But still it works nicely (gona use itertools in the future)
+                                                                                                            

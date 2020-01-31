@@ -12,6 +12,8 @@ else:
     longArr = arr2
     shortArr = arr1
 
+s = ''
+
 for i in range(0, len(longArr)):
-    print(longArr[i] + shortArr[i % len(shortArr)]) # Actually works need to check it out later
-    
+    s += f'{longArr[i] + shortArr[i % len(shortArr)]} '
+print(s)
