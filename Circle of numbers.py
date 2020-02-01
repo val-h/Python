@@ -1,9 +1,6 @@
 numStr = input('Values for x and y: ')
-
-# Assigning the values - really bad way of doing it
-num = numStr.split(' ')
-x = int(num[0])
-y = int(num[1])
+num = [int(x) for x in numStr.split()]
+x, y = num
 middle = int(x / 2)
 pair = None
 
@@ -11,9 +8,8 @@ pair = None
 if y == 0:
     pair = middle
 elif y >= middle:
-    pair = y
+    pair = middle - y
 elif y < middle:
     pair = middle + y
 
-print(pair)
-# Doesn't work properly : 
+print(pair) # Works perfectly now
