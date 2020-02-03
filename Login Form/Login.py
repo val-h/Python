@@ -14,7 +14,7 @@ userData = {
 def CommandType():
     print('Type a command') # Add help
     while True:
-        command = input('\> ').lower()
+        command = input('/> ').lower()
         if command == 'reg':    UserRegister()
         elif command == 'log':  
             if userData['username'] == None:
