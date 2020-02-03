@@ -63,7 +63,6 @@ def UserProfile():
     print(f"Password - {userData['password']}")
     print(f"Email - {userData['email']}")
     print()
-    CommandType()
 
 def Help():
     print('|   ---  Commands List   ---   |')
