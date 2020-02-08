@@ -17,6 +17,6 @@ if addedIngr > 0:
     print(f'The ingredients are: ', end='')
     for i in range(0, len(arrAdded)):
         if i == len(arrAdded) - 1:
-            print(addedIngr[i], end='.\n')
+            print(arrAdded[i], end='.\n')
         else:
-            print(addedIngr[i], end=', ')   #TODO Fix this
+            print(arrAdded[i], end=', ')
