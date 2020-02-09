@@ -9,8 +9,6 @@ usernames = []
 passwords = []
 emails = []
 
-commands = []
-
 # Functions
 def CommandType():
     print('Type a command') # Add help
@@ -18,7 +16,7 @@ def CommandType():
         command = input('/> ').lower()
         if command == 'reg':    UserRegister()
         elif command == 'log':  
-            if not usernames:
+            if not usernames:   # Checkes if the list is empty
                 print('Error. No registered users.')
                 print('Try registering first.')
             else:
