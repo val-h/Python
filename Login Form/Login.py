@@ -4,11 +4,12 @@
 
 # Variables
 command = None
-userData = {
-    'username': None,
-    'password': None,
-    'email': None
-}
+
+usernames = []
+passwords = []
+emails = []
+
+commands = []
 
 # Functions
 def CommandType():
@@ -17,52 +18,57 @@ def CommandType():
         command = input('/> ').lower()
         if command == 'reg':    UserRegister()
         elif command == 'log':  
-            if userData['username'] == None:
+            if not usernames:
                 print('Error. No registered users.')
                 print('Try registering first.')
             else:
                 UserLogin()
         elif command == 'help': Help()
         elif command == 'exit':
-            print('Quiting program...')
-            exit()
+            Exit()
         else:
             print('Error. Unknown command.')
             print('Type help for commands list')
-            print()
+        print()
 
 def UserLogin():
-    print('|   ---   Login Form   ---   |') #TODO add number of tries -> 3 max
-    while True:
+    print('|   ---   Login Form   ---   |')
+    attempts = 0
+    while attempts < 3:
         print('Username: ', end='')
         uName = input()
         print('Password: ', end='')
         uPass = input()
-        if uName == userData['username'] and uPass == userData['password']:
-            print('Access granted!')
-            print()
-            UserProfile()
+        if uName in usernames:
+                i = usernames.index(uName)
+                if uName == usernames[i] and uPass == passwords[i]:
+                    print('Access granted!')
+                    print()
+                    UserProfile(i)
+                    break
         else:
+            attempts += 1
             print('Access denied!')
             print('Wrong Username or Password.')
+            print(f'{attempts} failed attempts to log in.')
             print()
-            # availableTries -= 1
+    if attempts == 3:
+        print('Too many failed attempts...')
+        Exit()
 
 def UserRegister():
     print('|   ---   Register new user   ---   |')
-    userData['username'] = input('Username: ')
-    userData['password'] = input('Password: ')
-    userData['email'] = input('Email: ')
-    print()
+    usernames.append(input('Username: '))
+    passwords.append(input('Password: '))
+    emails.append(input('Email: '))
 
-def UserProfile():
-    print('|   ---   User Profile   ---   |')
+def UserProfile(i):
+    print(f'|   ---   {usernames[i]}\'s Profile   ---   |')
     print()
     print('Personal information:')
-    print(f"Username - {userData['username']}")
-    print(f"Password - {userData['password']}")
-    print(f"Email - {userData['email']}")
-    print()
+    print(f"Username - {usernames[i]}")
+    print(f"Password - {passwords[i]}")
+    print(f"Email - {emails[i]}")
 
 def Help():
     print('|   ---  Commands List   ---   |')
@@ -70,7 +76,10 @@ def Help():
     print('log - Login Form')
     print('exit - Exits program')
     print('help - Shows list of commands')
-    print()
+
+def Exit():
+    print('Quiting program...')
+    exit()
 
 # Main
 CommandType()
