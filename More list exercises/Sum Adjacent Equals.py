@@ -1,0 +1,14 @@
+lineOfNums = input('Numbers: ')
+nums = [int(x) for x in lineOfNums.split()]
+newNum = []
+index = 0
+
+while index < len(nums) - 1:
+    if nums[index] == nums[index + 1]:
+        nums[index] *= 2
+        nums.pop(index + 1)
+        if index > 0:
+            index -= 1
+    else:
+        index += 1
+print(nums)
