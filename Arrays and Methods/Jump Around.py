@@ -13,4 +13,3 @@ while True:
         break
 
 print(sum)
-6
