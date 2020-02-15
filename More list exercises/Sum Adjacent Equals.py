@@ -1,6 +1,5 @@
 lineOfNums = input('Numbers: ')
 nums = [int(x) for x in lineOfNums.split()]
-newNum = []
 index = 0
 
 while index < len(nums) - 1:
