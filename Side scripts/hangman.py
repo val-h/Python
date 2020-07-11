@@ -1,32 +1,12 @@
 # HangMan game
 from random import choice
+from termcolor import colored
 
 words = [
-    'geese',
-    'penitent',
-    'untidy',
-    'fade',
-    'collar',
-    'likeable',
-    'son',
-    'doubtful',
-    'shoes',
-    'check',
-    'weak',
-    'overflow',
-    'learned',
-    'glistening',
-    'laugh',
-    'underwear',
-    'race',
-    'flood',
-    'can',
-    'internal',
-    'gaping',
-    'sand',
-    'care',
-    'bit',
-    'cats',]
+    'geese','penitent','untidy','fade','collar','likeable','son',
+    'doubtful','shoes','check','weak','overflow','learned','glistening',
+    'laugh','underwear','race','flood','can','internal','gaping','sand',
+    'care','bit','cats',]
 
 def Game():
     """The game mechanics."""
@@ -36,9 +16,10 @@ def Game():
     while tries > 0:
         print(f'You have {tries} tries...')
 
-        dis_str = ''
+        # Display string for the console
+        dis_str = '\t'
         for c in masked:
-            dis_str += c
+            dis_str += f'{c} '
         print(f'Word: {dis_str}')
         
         char = input('Enter a single char: ').lower()
@@ -48,7 +29,7 @@ def Game():
                 if char == c:
                    masked[i] = char
                    found = True
-                   print('Congratz! You guessed a charecter.') 
+                   print('You guessed a charecter.') 
             # If the char was not guessed
             if found == False:
                 tries -= 1
@@ -56,10 +37,13 @@ def Game():
         else:
             print('Wrong input! Try again.')
         if '_' not in masked:
-            print('\nCongratulations! You won the game.')
+            print(colored('\nCongratulations! You won the game.', "green"))
+            print(f'The word was: {colored(word, "yellow")}')
             break
-        else:
-            print('\nGame Over!')
+        if tries == 0:
+            print(colored('\nGame Over!', "red"))
+            print(f'The word was: {colored(word, "yellow")}')
+            break
 
 def main():
     print(' --- HangMan Game ---')
