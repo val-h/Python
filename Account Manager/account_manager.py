@@ -1,6 +1,12 @@
+import os
 import json
 
 from account import Account
+
+def FindPath(f_name, path):
+    for root, dirs, files in os.walk(path):
+        if f_name in files:
+            return os.path.join(root, f_name)
 
 class AccountManager:
     """Acount Manager class with CRUD functionality."""
@@ -10,7 +16,8 @@ class AccountManager:
     def __init__(self):
         """Initialize the account manager a load data from a json file."""
         # Dictionary to hold all the accounts and to load from
-        with open('Account Manager\\accounts.json') as f:
+        filepath = FindPath('accounts.json', 'Account Manager')
+        with open(filepath) as f:
             acc_dict = json.load(f)
 
         # Accounts dict
@@ -19,27 +26,24 @@ class AccountManager:
         # Commands list
         self.commands = ['help', 'details', 'register', 'login', AccountManager.q_cmds]
 
+        # Account logged in
+        self.logged_acc = None
+
         # Command Line Interface
         print('Entering CLI...')
         self.CommandLine()
 
     def CommandLine(self):
         """Command line for the account manager with extra graphics."""
-        # Header part
-        # refactoring required...
-        header = self._Header()
-        
-        # Main content
-
-        if header == True:
-            # User is logged in
-            pass
-        else:
-            print('\tYou are not logged in! Please create an account.')
-
-        # Footer - Command input
         prompt = '\n/> '
         while True:
+            # Header part
+            self._Header()
+            
+            # Main content
+            self._Main()
+
+            # Footer - Command input
             usr_inp = input(prompt)
             if usr_inp in AccountManager.q_cmds:
                 print('Quiting...')
@@ -62,11 +66,18 @@ class AccountManager:
     def _Header(self):
         """Header line for the CLI."""
         txt_line = 'Account Manager\t'
-        txt_line += '\tLogin/Create Acc'
+        if self.logged_acc == True:
+            #txt_line += f'Username: {}'    
+            pass
+        txt_line += 'Login/Create Acc'
         print(txt_line)
-        
-        # Return true of false if the user is logged on.
-        return False
+    
+    def _Main(self):
+        """Main content for the CLI."""
+        print(f'|\t\tDetails\t\t|')
+        print(f'|\t\t       \t\t|')
+        print(f'|\t\t       \t\t|')
+        print(f'|\t\t-------\t\t|')
 
     def Help(self):
         """Help Function to print info about each command."""
@@ -78,10 +89,10 @@ class AccountManager:
         """Print details about the current state of the Account Manager."""
         print('Totals accounts: ', len(self.accounts))
 
-        for acc in self.accounts:
-            print(f"Username: {acc['username']}")
-            print(f"Password: {acc['password']}")
-            print(f"Email: {acc['email']}")
+#        for acc in self.accounts:
+#            print(f"Username: {acc['username']}")
+#            print(f"Password: {acc['password']}")
+#            print(f"Email: {acc['email']}")
 
     def CreateAccount(self):
         """Creates an account."""
@@ -110,4 +121,13 @@ class AccountManager:
 
     def LogInAccount(self):
         """Log in to an existing account."""
-        pass
+        print('Login Form -')
+        usr = input('Username: ')
+        for acc in self.accounts:
+            if usr == acc['username']:
+                pswd = input('Password: ')
+                if pswd == acc['password']:
+                    print('Succesful Login!')
+                    logged = Account(acc['username'], acc['password'], acc['email'])
+                    return logged
+
