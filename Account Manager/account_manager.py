@@ -23,6 +23,7 @@ class AccountManager:
 
         # Accounts dict
         self.accounts = acc_dict
+        print(self.accounts)
 
         # Commands list
         self.commands = [
@@ -30,10 +31,15 @@ class AccountManager:
             'details',
             'register',
             'login',
-            'logout',
 
             # Quit commands
-            AccountManager.q_cmds]
+            AccountManager.q_cmds
+            ]
+
+        self.user_commands = [
+            'logout',
+            
+        ]
 
         # Account logged in
         self.logged_acc = None
@@ -49,31 +55,45 @@ class AccountManager:
             # Main content
             self._Main()
 
-            # Footer - Command input
+            # Footer
             self._Footer()
 
+            # Command input
             usr_inp = input(prompt)
             if usr_inp in AccountManager.q_cmds:
                 print('Quiting...')
                 quit()
-            
+
             elif usr_inp in self.commands:
-                if usr_inp == 'help':
-                    self.Help()
-                elif usr_inp == 'details':
-                    self.PrintDetails()
-                elif usr_inp == 'register':
-                    self.CreateAccount()
-                elif usr_inp == 'login':
-                    self.LogInAccount()
-                elif usr_inp == 'logout':
-                    self.Logout()
+                self._commands(usr_inp)
+
+            elif usr_inp in self.user_commands:
+                self._logged_commands(usr_inp)
                 
             else:
                 print('Error! Command not recognised.'
                 '\nTry "help" for more info.')
             
             print()
+
+    def _commands(self, usr_inp):
+        """Check if user input is in the <general commands>."""
+        if usr_inp == 'help':
+            self.Help()
+        elif usr_inp == 'details':
+            self.PrintDetails()
+        elif usr_inp == 'register':
+            self.CreateAccount()
+        elif usr_inp == 'login':
+            self.LogInAccount()
+
+    def _logged_commands(self, usr_inp):
+        """Check if user input is in the <logged in user commands>."""
+        if self._is_logged():
+            if usr_inp == 'logout':
+                self.Logout()
+        else:
+            print('You are not logged in!')
 
     def _Header(self):
         """Header line for the CLI."""
@@ -88,8 +108,8 @@ class AccountManager:
         """Main content for the CLI."""
         print(f'|\t\tDetails\t\t|')
         if self._is_logged():
-            print(f'|\tUsername - {self.logged_acc.username}\t\t|')
-            print(f'|\tEmail - {self.logged_acc.email}\t\t|')
+            #print(f'|\tUsername - {self.logged_acc.username}\t\t|')
+            print(f'|\t{self.logged_acc.email}\t|')
         print(f'|\t\t-------\t\t|')
 
     @staticmethod
@@ -99,18 +119,22 @@ class AccountManager:
 
     def Help(self):
         """Help Function to print info about each command."""
-        print('List of commands: ')
-        for item in self.commands:
-            print('\t-', item)
+        print('List of general commands: ')
+        for cmd in self.commands:
+            print('\t-', cmd)
+        print('List of user commands:')
+        for cmd in self.user_commands:
+            print('\t-', cmd)
 
     def PrintDetails(self):
         """Print details about the current state of the Account Manager."""
         print('Totals accounts: ', len(self.accounts))
 
-    #    for acc in self.accounts:
-    #        print(f"Username: {acc['username']}")
-    #        print(f"Password: {acc['password']}")
-    #        print(f"Email: {acc['email']}")
+        if self._is_logged():
+            acc = self._get_acc_info()
+            print('Username: ', acc.username)
+            print('Password: ', acc.password)
+            print('Email: ', acc.email)
 
     def CreateAccount(self):
         """Creates an account."""
@@ -170,3 +194,14 @@ class AccountManager:
         """Check if user is logged."""
         if self.logged_acc:
             return True
+
+    # idk what i'm doing here
+    def _get_acc_info(self):
+        """Get the details of an account as a dict."""
+        if self._is_logged():
+            # return the logged account
+            acc = self.logged_acc
+        else:
+            # return all of the accounts
+            acc = [a for a in self.accounts]
+        return acc
