@@ -1,12 +1,11 @@
-import os
+from os import path
+from pathlib import Path
 import json
 
 from account import Account
 
-def FindPath(f_name, path):
-    for root, dirs, files in os.walk(path):
-        if f_name in files:
-            return os.path.join(root, f_name)
+# Find the base dir for the container folder (Account Manager)
+BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 class AccountManager:
     """Acount Manager class with CRUD functionality."""
@@ -16,25 +15,32 @@ class AccountManager:
     def __init__(self):
         """Initialize the account manager a load data from a json file."""
         # Dictionary to hold all the accounts and to load from
-        filepath = FindPath('accounts.json', 'Account Manager')
-        with open(filepath) as f:
+        self.acc_filepath = path.join(BASE_DIR, 'accounts.json')
+        print(self.acc_filepath)
+        with open(self.acc_filepath) as f:
             acc_dict = json.load(f)
+            print(acc_dict)
 
         # Accounts dict
         self.accounts = acc_dict
 
         # Commands list
-        self.commands = ['help', 'details', 'register', 'login', AccountManager.q_cmds]
+        self.commands = [
+            'help',
+            'details',
+            'register',
+            'login',
+            'logout',
+
+            # Quit commands
+            AccountManager.q_cmds]
 
         # Account logged in
         self.logged_acc = None
 
-        # Command Line Interface
-        print('Entering CLI...')
-        self.CommandLine()
-
     def CommandLine(self):
         """Command line for the account manager with extra graphics."""
+        print('Entering CLI...')
         prompt = '\n/> '
         while True:
             # Header part
@@ -44,6 +50,8 @@ class AccountManager:
             self._Main()
 
             # Footer - Command input
+            self._Footer()
+
             usr_inp = input(prompt)
             if usr_inp in AccountManager.q_cmds:
                 print('Quiting...')
@@ -58,26 +66,36 @@ class AccountManager:
                     self.CreateAccount()
                 elif usr_inp == 'login':
                     self.LogInAccount()
+                elif usr_inp == 'logout':
+                    self.Logout()
                 
             else:
                 print('Error! Command not recognised.'
                 '\nTry "help" for more info.')
+            
+            print()
 
     def _Header(self):
         """Header line for the CLI."""
         txt_line = 'Account Manager\t'
-        if self.logged_acc == True:
-            #txt_line += f'Username: {}'    
-            pass
-        txt_line += 'Login/Create Acc'
+        if self._is_logged():
+            txt_line += f'\tHello, {self.logged_acc.username}!'
+        else:
+            txt_line += 'Login/Create Acc'
         print(txt_line)
     
     def _Main(self):
         """Main content for the CLI."""
         print(f'|\t\tDetails\t\t|')
-        print(f'|\t\t       \t\t|')
-        print(f'|\t\t       \t\t|')
+        if self._is_logged():
+            print(f'|\tUsername - {self.logged_acc.username}\t\t|')
+            print(f'|\tEmail - {self.logged_acc.email}\t\t|')
         print(f'|\t\t-------\t\t|')
+
+    @staticmethod
+    def _Footer():
+        """Footer part of the CLI, includes the command promt."""
+        print('\tcopyright VM 2020')
 
     def Help(self):
         """Help Function to print info about each command."""
@@ -89,10 +107,10 @@ class AccountManager:
         """Print details about the current state of the Account Manager."""
         print('Totals accounts: ', len(self.accounts))
 
-#        for acc in self.accounts:
-#            print(f"Username: {acc['username']}")
-#            print(f"Password: {acc['password']}")
-#            print(f"Email: {acc['email']}")
+    #    for acc in self.accounts:
+    #        print(f"Username: {acc['username']}")
+    #        print(f"Password: {acc['password']}")
+    #        print(f"Email: {acc['email']}")
 
     def CreateAccount(self):
         """Creates an account."""
@@ -105,7 +123,7 @@ class AccountManager:
             rpt_pass = input('Repeat Password: ').strip()
         email = input('Email: ').strip()
 
-        # Create the account
+        # Create the account, for databases
         new_acc = Account(username, password, email)
 
         # Add the account to the acc dict
@@ -116,18 +134,39 @@ class AccountManager:
         }
 
         # Store the account in json file
-        with open('Account Manager\\accounts.json', 'w') as f:
+        with open(self.acc_filepath, 'w') as f:
             json.dump(self.accounts, f, indent=4)
+
+        # Login automatically
+        self._LogIn(username, password, email)
 
     def LogInAccount(self):
         """Log in to an existing account."""
         print('Login Form -')
         usr = input('Username: ')
         for acc in self.accounts:
-            if usr == acc['username']:
+            
+            if usr == self.accounts[acc]['username']:
                 pswd = input('Password: ')
-                if pswd == acc['password']:
+                if pswd == self.accounts[acc]['password']:
                     print('Succesful Login!')
-                    logged = Account(acc['username'], acc['password'], acc['email'])
-                    return logged
+                    self._LogIn(usr, pswd, self.accounts[acc]['email'])
 
+    def _LogIn(self, usr, pswd, email):
+        """Login specific profile."""
+        logged = Account(usr, pswd, email)
+        self.logged_acc = logged
+    
+    def Logout(self):
+        """Logout of the current account."""
+        # Simple for now, will be extended
+        if self._is_logged():
+            print('Successful logout!')
+            self.logged_acc = None
+        else:
+            print('You are not logged in!')
+
+    def _is_logged(self):
+        """Check if user is logged."""
+        if self.logged_acc:
+            return True
