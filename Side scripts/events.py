@@ -18,7 +18,7 @@ def f1():
     if x == 'y':
         event.set()
 
-
+# Daemon threads / not a priority thread
 def f2():
     path = 'Side scripts/text.txt'
     text = ''

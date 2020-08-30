@@ -8,7 +8,8 @@ def q1():
     for number in numbers:
         q.put(number)
 
-    print(q.get())
+    while not q.empty():
+        print(q.get())
 
 def q2():
     q = queue.LifoQueue()
