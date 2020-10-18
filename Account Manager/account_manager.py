@@ -130,11 +130,14 @@ class AccountManager:
         """Print details about the current state of the Account Manager."""
         print('Totals accounts: ', len(self.accounts))
 
-        if self._is_logged():
-            acc = self._get_acc_info()
+        acc = self._get_acc_info()
+        if acc:
             print('Username: ', acc.username)
             print('Password: ', acc.password)
             print('Email: ', acc.email)
+        else:
+            for acc in self.accounts:
+                print(acc, self.accounts[acc]['username'])
 
     def CreateAccount(self):
         """Creates an account."""
@@ -201,7 +204,5 @@ class AccountManager:
         if self._is_logged():
             # return the logged account
             acc = self.logged_acc
-        else:
-            # return all of the accounts
-            acc = [a for a in self.accounts]
-        return acc
+            return acc
+        return None
